@@ -288,13 +288,13 @@ export default function HomePage() {
                 <>
                   <button
                     onClick={nextOffer}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full p-1.5 transition-all"
+                    className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-[#C03A0A]/60 text-white rounded-full p-1.5 transition-all"
                   >
                     <ChevronLeft className="h-4 w-4" />
                   </button>
                   <button
                     onClick={prevOffer}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full p-1.5 transition-all"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-[#C03A0A]/60 text-white rounded-full p-1.5 transition-all"
                   >
                     <ChevronRight className="h-4 w-4" />
                   </button>

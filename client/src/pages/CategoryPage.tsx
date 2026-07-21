@@ -124,7 +124,7 @@ export default function CategoryPage() {
   return (
     <div className="bg-white min-h-screen pb-20">
       <div className="container mx-auto px-4 py-6 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">
-        <button onClick={() => setLocation('/')} className="hover:text-black transition-colors">HOME</button>
+        <button onClick={() => setLocation('/')} className="hover:text-[#F05215] transition-colors">HOME</button>
         <span>/</span>
         <span className="text-black">{decodeURIComponent(slug || '')}</span>
       </div>
@@ -139,7 +139,7 @@ export default function CategoryPage() {
                 <button 
                   key={sort}
                   onClick={() => setSortBy(sort)}
-                  className={`text-sm font-black pb-2 border-b-2 transition-all uppercase tracking-tighter ${sortBy === sort ? 'border-black text-black' : 'border-transparent text-gray-400'}`}
+                  className={`text-sm font-black pb-2 border-b-2 transition-all uppercase tracking-tighter ${sortBy === sort ? 'border-[#F05215] text-[#F05215]' : 'border-transparent text-gray-400'}`}
                 >
                   {sort === 'recommend' ? 'التوصية' : 
                    sort === 'newest' ? 'الأحدث' : 

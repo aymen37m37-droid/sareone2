@@ -565,7 +565,7 @@ export default function DriverApp() {
       <div className="h-full flex flex-col">
         <div className="p-6 border-b bg-gradient-to-r from-blue-50 to-indigo-50">
           <h2 className="text-xl font-bold text-gray-900">📍 تطبيق السائق</h2>
-          <p className="text-sm text-gray-600">واصل للتوصيل</p>
+          <p className="text-sm text-gray-600">السريع ون للتوصيل</p>
         </div>
 
         <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
@@ -832,7 +832,7 @@ function OrderCard({ order, isLoading, onAccept, onStatusUpdate, actionType, isS
               </a>
               <a
                 href={`tel:${adminPhone}`}
-                className="flex flex-col items-center justify-center gap-2 bg-gray-800 text-white p-4 rounded-xl font-bold hover:bg-gray-900 transition-all shadow-md active:scale-95"
+                className="flex flex-col items-center justify-center gap-2 bg-[#F05215] text-white p-4 rounded-xl font-bold hover:bg-[#C03A0A] transition-all shadow-md active:scale-95"
               >
                 <User size={24} />
                 <span>اتصال بالإدارة</span>

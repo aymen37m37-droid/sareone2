@@ -80,7 +80,7 @@ export default function Restaurant() {
   const orderBlocked = !companyOpen || !restaurantStatus.isOpen;
   let blockMessage = '';
   if (!companyOpen) {
-    blockMessage = `واصل مغلق حالياً. أوقات الدوام من ${openingTime} حتى ${closingTime}`;
+    blockMessage = `السريع ون مغلق حالياً. أوقات الدوام من ${openingTime} حتى ${closingTime}`;
   } else if (!restaurantStatus.isOpen) {
     blockMessage = `هذا المتجر مغلق حالياً. ${restaurantStatus.message}`;
   }
@@ -103,7 +103,7 @@ export default function Restaurant() {
         {/* Back button */}
         <button
           onClick={() => setLocation('/')}
-          className="absolute top-4 right-4 bg-black/40 backdrop-blur-sm text-white p-2 rounded-full hover:bg-black/60 transition-colors"
+          className="absolute top-4 right-4 bg-black/40 backdrop-blur-sm text-white p-2 rounded-full hover:bg-[#C03A0A]/60 transition-colors"
         >
           <ArrowRight className="h-5 w-5" />
         </button>

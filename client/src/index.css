@@ -11,81 +11,81 @@
   --card-foreground: hsl(222.2 84% 4.9%);
   --popover: hsl(0 0% 100%);
   --popover-foreground: hsl(222.2 84% 4.9%);
-  --primary: hsl(32 95% 55%); /* Wasel Amber - matches logo */
+  --primary: hsl(18 90% 50%); /* Saree One orange-red */
   --primary-foreground: hsl(0 0% 100%);
-  --secondary: hsl(220 45% 12%); /* Wasel Navy - matches logo background */
+  --secondary: hsl(18 75% 15%); /* Saree One dark warm */
   --secondary-foreground: hsl(0 0% 100%);
-  --muted: hsl(32 15% 96%);
-  --muted-foreground: hsl(220 8% 46%);
-  --accent: hsl(32 95% 55%);
-  --accent-foreground: hsl(220 45% 12%);
+  --muted: hsl(18 15% 96%);
+  --muted-foreground: hsl(18 8% 46%);
+  --accent: hsl(18 90% 50%);
+  --accent-foreground: hsl(18 75% 15%);
   --destructive: hsl(0 84.2% 60.2%);
   --destructive-foreground: hsl(210 40% 98%);
-  --border: hsl(214.3 31.8% 91.4%);
-  --input: hsl(214.3 31.8% 91.4%);
-  --ring: hsl(32 95% 55%);
-  --chart-1: hsl(32 95% 55%);
-  --chart-2: hsl(220 45% 12%);
-  --chart-3: hsl(38 92% 60%);
-  --chart-4: hsl(28 85% 58%);
-  --chart-5: hsl(220 30% 30%);
-  --sidebar: hsl(32 8% 97%);
-  --sidebar-foreground: hsl(220 25% 8%);
-  --sidebar-primary: hsl(32 95% 55%);
+  --border: hsl(18 20% 91%);
+  --input: hsl(18 20% 91%);
+  --ring: hsl(18 90% 50%);
+  --chart-1: hsl(18 90% 50%);
+  --chart-2: hsl(18 75% 15%);
+  --chart-3: hsl(25 90% 58%);
+  --chart-4: hsl(12 88% 55%);
+  --chart-5: hsl(18 50% 30%);
+  --sidebar: hsl(18 8% 97%);
+  --sidebar-foreground: hsl(18 50% 8%);
+  --sidebar-primary: hsl(18 90% 50%);
   --sidebar-primary-foreground: hsl(0 0% 100%);
-  --sidebar-accent: hsl(220 40% 96%);
-  --sidebar-accent-foreground: hsl(32 95% 55%);
-  --sidebar-border: hsl(220 25% 90%);
-  --sidebar-ring: hsl(32 95% 55%);
+  --sidebar-accent: hsl(18 40% 96%);
+  --sidebar-accent-foreground: hsl(18 90% 50%);
+  --sidebar-border: hsl(18 25% 90%);
+  --sidebar-ring: hsl(18 90% 50%);
   --font-sans: 'Inter', 'Noto Sans Arabic', sans-serif;
   --font-serif: Georgia, serif;
   --font-mono: Menlo, monospace;
   --radius: 0.75rem;
-  --shadow-2xs: 0px 2px 0px 0px hsl(32 95% 55% / 0.00);
-  --shadow-xs: 0px 2px 0px 0px hsl(32 95% 55% / 0.00);
-  --shadow-sm: 0px 2px 0px 0px hsl(32 95% 55% / 0.00), 0px 1px 2px -1px hsl(32 95% 55% / 0.00);
-  --shadow: 0px 2px 0px 0px hsl(32 95% 55% / 0.00), 0px 1px 2px -1px hsl(32 95% 55% / 0.00);
-  --shadow-md: 0px 2px 0px 0px hsl(32 95% 55% / 0.00), 0px 2px 4px -1px hsl(32 95% 55% / 0.00);
-  --shadow-lg: 0px 2px 0px 0px hsl(32 95% 55% / 0.00), 0px 4px 6px -1px hsl(32 95% 55% / 0.00);
-  --shadow-xl: 0px 2px 0px 0px hsl(32 95% 55% / 0.00), 0px 8px 10px -1px hsl(32 95% 55% / 0.00);
-  --shadow-2xl: 0px 2px 0px 0px hsl(32 95% 55% / 0.00);
+  --shadow-2xs: 0px 2px 0px 0px hsl(18 90% 50% / 0.00);
+  --shadow-xs: 0px 2px 0px 0px hsl(18 90% 50% / 0.00);
+  --shadow-sm: 0px 2px 0px 0px hsl(18 90% 50% / 0.00), 0px 1px 2px -1px hsl(18 90% 50% / 0.00);
+  --shadow: 0px 2px 0px 0px hsl(18 90% 50% / 0.00), 0px 1px 2px -1px hsl(18 90% 50% / 0.00);
+  --shadow-md: 0px 2px 0px 0px hsl(18 90% 50% / 0.00), 0px 2px 4px -1px hsl(18 90% 50% / 0.00);
+  --shadow-lg: 0px 2px 0px 0px hsl(18 90% 50% / 0.00), 0px 4px 6px -1px hsl(18 90% 50% / 0.00);
+  --shadow-xl: 0px 2px 0px 0px hsl(18 90% 50% / 0.00), 0px 8px 10px -1px hsl(18 90% 50% / 0.00);
+  --shadow-2xl: 0px 2px 0px 0px hsl(18 90% 50% / 0.00);
   --tracking-normal: 0em;
   --spacing: 0.25rem;
 }
 
 .dark {
-  --background: hsl(220 45% 8%);
+  --background: hsl(18 60% 8%);
   --foreground: hsl(210 40% 98%);
-  --card: hsl(220 45% 10%);
+  --card: hsl(18 55% 10%);
   --card-foreground: hsl(210 40% 98%);
-  --popover: hsl(220 45% 10%);
+  --popover: hsl(18 55% 10%);
   --popover-foreground: hsl(210 40% 98%);
-  --primary: hsl(32 95% 55%);
-  --primary-foreground: hsl(220 45% 12%);
-  --secondary: hsl(220 30% 20%);
+  --primary: hsl(18 90% 50%);
+  --primary-foreground: hsl(18 75% 15%);
+  --secondary: hsl(18 50% 20%);
   --secondary-foreground: hsl(210 40% 98%);
-  --muted: hsl(220 30% 18%);
-  --muted-foreground: hsl(215 20.2% 65.1%);
-  --accent: hsl(32 95% 55%);
-  --accent-foreground: hsl(220 45% 12%);
+  --muted: hsl(18 40% 18%);
+  --muted-foreground: hsl(18 15% 65%);
+  --accent: hsl(18 90% 50%);
+  --accent-foreground: hsl(18 75% 15%);
   --destructive: hsl(0 62.8% 30.6%);
   --destructive-foreground: hsl(210 40% 98%);
-  --border: hsl(220 30% 20%);
-  --input: hsl(220 30% 20%);
-  --ring: hsl(32 95% 55%);
-  --chart-1: hsl(32 95% 55%);
-  --chart-2: hsl(220 45% 30%);
-  --chart-3: hsl(38 92% 60%);
-  --chart-4: hsl(28 85% 58%);
-  --chart-5: hsl(220 30% 30%);
-  --sidebar: hsl(220 45% 10%);
+  --border: hsl(18 40% 20%);
+  --input: hsl(18 40% 20%);
+  --ring: hsl(18 90% 50%);
+  --chart-1: hsl(18 90% 50%);
+  --chart-2: hsl(18 60% 30%);
+  --chart-3: hsl(25 90% 58%);
+  --chart-4: hsl(12 88% 55%);
+  --chart-5: hsl(18 50% 30%);
+  --sidebar: hsl(18 55% 10%);
   --sidebar-foreground: hsl(210 40% 98%);
-  --sidebar-primary: hsl(32 95% 55%);
-  --sidebar-primary-foreground: hsl(220 45% 12%);
-  --sidebar-accent: hsl(220 30% 18%);
-  --sidebar-accent-foreground: hsl(32 95% 55%);
-  --sidebar-border: hsl(220 30% 20%);
-  --sidebar-ring: hsl(32 95% 55%);
+  --sidebar-primary: hsl(18 90% 50%);
+  --sidebar-primary-foreground: hsl(18 75% 15%);
+  --sidebar-accent: hsl(18 40% 18%);
+  --sidebar-accent-foreground: hsl(18 90% 50%);
+  --sidebar-border: hsl(18 40% 20%);
+  --sidebar-ring: hsl(18 90% 50%);
 }
 
 @layer base {
@@ -103,20 +103,20 @@
 
 @layer components {
   .hero-banner {
-    background: linear-gradient(135deg, #F97316 0%, #EA580C 50%, #0E1729 100%);
+    background: linear-gradient(135deg, #F97316 0%, #EA580C 50%, #1A0600 100%);
   }
 
   .gradient-header {
-    background: linear-gradient(135deg, #0E1729 0%, #152033 100%);
+    background: linear-gradient(135deg, #1A0600 0%, #240A00 100%);
   }
 
-  .logo-wasel {
+  .logo-saree-one {
     display: flex;
     align-items: center;
     font-weight: 900;
   }
 
-  .logo-wasel .primary {
+  .logo-saree-one .primary {
     color: #F97316;
   }
 
@@ -130,7 +130,7 @@
 
   /* الشريط العلوي للجوال: تدرج برتقالي بلمسة كحلية لمطابقة الشعار */
   .header-gradient {
-    background: linear-gradient(135deg, #F97316 0%, #EA580C 60%, #0E1729 130%);
+    background: linear-gradient(135deg, #F97316 0%, #EA580C 60%, #1A0600 130%);
   }
 
   .primary-gradient {
@@ -138,7 +138,7 @@
   }
 
   .navy-gradient {
-    background: linear-gradient(135deg, #0E1729 0%, #152033 50%, #1E293B 100%);
+    background: linear-gradient(135deg, #1A0600 0%, #240A00 50%, #1E293B 100%);
   }
 
   /* ── Splash Screen Animations ─────────────────────────────────── */
@@ -197,9 +197,9 @@
   }
   .splash-bg-mesh {
     background:
-      radial-gradient(ellipse at 20% 30%, rgba(245,166,35,0.18) 0%, transparent 45%),
-      radial-gradient(ellipse at 80% 70%, rgba(255,192,97,0.15) 0%, transparent 45%),
-      radial-gradient(ellipse at 50% 50%, rgba(245,166,35,0.10) 0%, transparent 55%);
+      radial-gradient(ellipse at 20% 30%, rgba(240,82,21,0.18) 0%, transparent 45%),
+      radial-gradient(ellipse at 80% 70%, rgba(255,120,64,0.15) 0%, transparent 45%),
+      radial-gradient(ellipse at 50% 50%, rgba(240,82,21,0.10) 0%, transparent 55%);
     animation: splashBgShift 14s ease-in-out infinite;
   }
 

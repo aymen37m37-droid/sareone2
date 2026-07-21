@@ -420,7 +420,7 @@ export default function AdminUiSettings() {
 
             {/* الهوية البصرية */}
             <SectionCard {...secProps('branding')} title="الهوية البصرية والشعار" icon={ImageIcon} color="text-purple-600">
-              <SettingRow label="اسم التطبيق" {...rowProps('app_name')} placeholder="واصل" description="الاسم الذي يظهر في الشريط العلوي" />
+              <SettingRow label="اسم التطبيق" {...rowProps('app_name')} placeholder="السريع ون" description="الاسم الذي يظهر في الشريط العلوي" />
               <SettingRow label="إصدار التطبيق" {...rowProps('app_version')} placeholder="1.0.0" description="رقم إصدار التطبيق الظاهر في القائمة الجانبية" />
               <SettingRow label="اللون الأساسي (hex)" {...rowProps('app_theme')} placeholder="#16a34a" description="لون الموضوع الرئيسي" />
               <SettingRow label="شعار الشريط العلوي" {...rowProps('header_logo_url')} type="image" description="الشعار الصغير في أعلى التطبيق" />
@@ -434,7 +434,7 @@ export default function AdminUiSettings() {
               <SettingRow label="إظهار شاشة الترحيب" {...rowProps('show_splash_screen')} type="boolean" description="عرض شاشة الترحيب عند فتح التطبيق لأول مرة" />
               <SettingRow label="صورة شاشة الترحيب" {...rowProps('splash_image_url')} type="image" description="الصورة الرئيسية في شاشة الترحيب" />
               <SettingRow label="صورة إضافية للترحيب" {...rowProps('splash_image_url_2')} type="image" description="صورة ثانية تظهر في الشاشة (اختياري)" />
-              <SettingRow label="عنوان شاشة الترحيب" {...rowProps('splash_title')} placeholder="واصل" description="النص الرئيسي في شاشة الترحيب" />
+              <SettingRow label="عنوان شاشة الترحيب" {...rowProps('splash_title')} placeholder="السريع ون" description="النص الرئيسي في شاشة الترحيب" />
               <SettingRow label="نص الترحيب (وصف)" {...rowProps('splash_subtitle')} type="textarea" placeholder="أفضل وجبات طازجة..." description="الوصف أسفل العنوان" />
               <SettingRow label="نص زر البداية" {...rowProps('splash_button_text')} placeholder="ابدأ الآن" description="النص على زر البدء في شاشة الترحيب" />
             </SectionCard>
@@ -456,7 +456,7 @@ export default function AdminUiSettings() {
             <SectionCard {...secProps('sidebar')} title="القائمة الجانبية والمشاركة" icon={Share2} color="text-blue-600">
               <SettingRow label="إظهار زر المشاركة في القائمة" {...rowProps('show_share_button')} type="boolean" description="إظهار أو إخفاء زر مشاركة التطبيق" />
               <SettingRow label="إظهار زر التواصل في القائمة" {...rowProps('show_contact_button')} type="boolean" description="إظهار أو إخفاء زر التواصل في القائمة الجانبية" />
-              <SettingRow label="نص المشاركة" {...rowProps('share_text')} type="textarea" placeholder="جرب تطبيق واصل الآن!" description="النص الافتراضي عند مشاركة التطبيق" rows={2} />
+              <SettingRow label="نص المشاركة" {...rowProps('share_text')} type="textarea" placeholder="جرب تطبيق السريع ون الآن!" description="النص الافتراضي عند مشاركة التطبيق" rows={2} />
               <SettingRow label="رابط المشاركة" {...rowProps('share_url')} placeholder="https://tamtom.app" description="الرابط الذي يشاركه المستخدم" />
             </SectionCard>
 
@@ -776,7 +776,7 @@ export default function AdminUiSettings() {
 
             <SectionCard {...secProps('flutter_splash')} title="شاشة البداية (Flutter Splash Screen)" icon={Star} color="text-yellow-600">
               <SettingRow label="تفعيل شاشة البداية" {...rowProps('splashEnabled')} type="boolean" description="عرض شاشة البداية عند فتح تطبيق Flutter" />
-              <SettingRow label="عنوان شاشة البداية" {...rowProps('splashTitle')} placeholder="واصل" description="النص الرئيسي في شاشة البداية" />
+              <SettingRow label="عنوان شاشة البداية" {...rowProps('splashTitle')} placeholder="السريع ون" description="النص الرئيسي في شاشة البداية" />
               <SettingRow label="وصف شاشة البداية" {...rowProps('splashSubtitle')} type="textarea" placeholder="متجر الخضار والفواكه الطازجة..." description="النص الفرعي أسفل العنوان" rows={2} />
               <SettingRow label="لون خلفية شاشة البداية (hex)" {...rowProps('splashBackgroundColor')} placeholder="#FFFFFF" description="لون خلفية شاشة البداية (مثال: #FFFFFF للأبيض)" />
               <SettingRow label="مدة ظهور شاشة البداية (ميلي ثانية)" {...rowProps('splashDuration')} placeholder="3000" description="المدة التي تبقى فيها شاشة البداية مرئية. 3000 = 3 ثوان" />

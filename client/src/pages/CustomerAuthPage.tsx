@@ -86,7 +86,7 @@ export default function CustomerAuthPage() {
         localStorage.setItem('auth_token', result.token);
         toast({
           title: 'تم تسجيل الدخول',
-          description: `مرحباً بك في واصل، ${result.user?.name || ''}`,
+          description: `مرحباً بك في السريع ون، ${result.user?.name || ''}`,
         });
         window.location.href = '/';
       } else {
@@ -188,7 +188,7 @@ export default function CustomerAuthPage() {
     try {
       const result = await login(loginIdentifier, loginPassword);
       if (result.success) {
-        toast({ title: 'تم تسجيل الدخول', description: 'مرحباً بك مجدداً في واصل' });
+        toast({ title: 'تم تسجيل الدخول', description: 'مرحباً بك مجدداً في السريع ون' });
         setLocation('/');
       } else {
         setError(result.message);
@@ -212,7 +212,7 @@ export default function CustomerAuthPage() {
         username: regPhone,
       });
       if (result.success) {
-        toast({ title: 'تم إنشاء الحساب', description: 'مرحباً بك في واصل، تم إنشاء حسابك بنجاح' });
+        toast({ title: 'تم إنشاء الحساب', description: 'مرحباً بك في السريع ون، تم إنشاء حسابك بنجاح' });
         setLocation('/');
       } else {
         setError(result.message);
@@ -228,7 +228,7 @@ export default function CustomerAuthPage() {
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4 py-12" dir="rtl">
       <div className="mb-8 text-center">
         <div className="text-5xl md:text-6xl mb-4 flex justify-center font-black">
-          <span className="text-[#ec3714]">واصل</span>
+          <span className="text-[#ec3714]">السريع ون</span>
         </div>
         <p className="text-muted-foreground font-bold">لخدمات التوصيل</p>
       </div>
@@ -446,7 +446,7 @@ export default function CustomerAuthPage() {
       </Card>
 
       <p className="mt-8 text-sm text-muted-foreground max-w-xs text-center">
-        بتسجيلك في واصل، أنت توافق على شروط الخدمة وسياسة الخصوصية الخاصة بنا.
+        بتسجيلك في السريع ون، أنت توافق على شروط الخدمة وسياسة الخصوصية الخاصة بنا.
       </p>
     </div>
   );

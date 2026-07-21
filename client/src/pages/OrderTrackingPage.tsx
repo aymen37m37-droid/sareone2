@@ -42,7 +42,7 @@ interface OrderDetails {
   scheduledDate?: string;
   scheduledTimeSlot?: string;
   // Wasalni fields
-  isWaselLi?: boolean;
+  isSaree OneLi?: boolean;
   pickupAddress?: string;
   pickupPhone?: string;
   pickupName?: string;
@@ -330,7 +330,7 @@ export default function OrderTrackingPage() {
         </Card>
 
         {/* Wasalni Pickup Info */}
-        {order.isWaselLi && (
+        {order.isSaree OneLi && (
           <Card className="border-primary/20 bg-primary/5">
             <CardContent className="p-4">
               <div className="flex items-start gap-3">

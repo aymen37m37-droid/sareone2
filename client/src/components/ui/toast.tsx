@@ -28,7 +28,7 @@ const toastVariants = cva(
     variants: {
       variant: {
         default:
-          "border-white/40 bg-white/95 text-slate-900 [--accent:#F5A623] before:absolute before:inset-y-0 before:right-0 before:w-1.5 before:bg-[var(--accent)] before:rounded-r-2xl",
+          "border-white/40 bg-white/95 text-slate-900 [--accent:#F05215] before:absolute before:inset-y-0 before:right-0 before:w-1.5 before:bg-[var(--accent)] before:rounded-r-2xl",
         destructive:
           "destructive group border-red-200 bg-gradient-to-br from-red-50 to-white text-red-950 [--accent:#dc2626] before:absolute before:inset-y-0 before:right-0 before:w-1.5 before:bg-[var(--accent)] before:rounded-r-2xl",
         success:

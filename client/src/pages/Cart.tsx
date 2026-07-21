@@ -362,7 +362,7 @@ export default function Cart() {
             <AlertDialogCancel className="mt-0">إلغاء</AlertDialogCancel>
             <AlertDialogAction 
               onClick={confirmAndPlaceOrder}
-              className="bg-black hover:bg-red-600 text-white"
+              className="bg-[#F05215] hover:bg-[#C03A0A] text-white"
             >
               تأكيد وإرسال
             </AlertDialogAction>
@@ -380,8 +380,8 @@ export default function Cart() {
         <div className="flex items-center justify-between mb-8 border-b pb-4">
           <div className="flex items-center gap-3">
             <div className="text-3xl font-black tracking-tighter flex items-center gap-2">
-              <span className="text-primary">واصل</span>
-              <span className="text-[10px] font-bold text-primary/70 tracking-[0.3em] border border-primary/30 rounded px-1.5 py-0.5">WASEL</span>
+              <span className="text-primary">السريع ون</span>
+              <span className="text-[10px] font-bold text-primary/70 tracking-[0.3em] border border-primary/30 rounded px-1.5 py-0.5">SAREE ONE</span>
             </div>
             <h1 className="text-3xl font-black uppercase tracking-tighter"> - السلة</h1>
           </div>
@@ -389,7 +389,7 @@ export default function Cart() {
             <Button 
               variant="ghost" 
               size="sm" 
-              className="text-gray-400 hover:text-black font-bold gap-2"
+              className="text-gray-400 hover:text-primary font-bold gap-2"
               onClick={clearCart}
               data-testid="button-clear-cart"
             >
@@ -450,7 +450,7 @@ export default function Cart() {
                           <Button
                             size="icon"
                             variant="outline"
-                            className="w-6 h-6 ml-2 text-black hover:text-red-700"
+                            className="w-6 h-6 ml-2 text-[#F05215] hover:text-[#C03A0A]"
                             onClick={() => removeItem(item.id)}
                             data-testid={`button-remove-${item.id}`}
                           >
@@ -495,7 +495,7 @@ export default function Cart() {
             <Card>
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-4">
-                  <MapPin className="h-5 w-5 text-black" />
+                  <MapPin className="h-5 w-5 text-[#F05215]" />
                   <h3 className="font-semibold text-gray-800">عنوان التوصيل</h3>
                 </div>
                 
@@ -514,7 +514,7 @@ export default function Cart() {
                     onChange={(e) => setOrderForm(prev => ({ ...prev, deliveryAddress: e.target.value }))}
                     rows={3}
                     data-testid="input-delivery-address"
-                    className="border-gray-300 focus:border-black focus:ring-black"
+                    className="border-gray-300 focus:border-[#F05215] focus:ring-[#F05215]"
                   />
                 </div>
 
@@ -539,7 +539,7 @@ export default function Cart() {
             <Card>
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-3">
-                  <Calendar className="h-5 w-5 text-black" />
+                  <Calendar className="h-5 w-5 text-[#F05215]" />
                   <h3 className="font-semibold text-gray-800">ملاحظات الطلب</h3>
                 </div>
                 <Textarea
@@ -556,7 +556,7 @@ export default function Cart() {
             <Card>
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-3">
-                  <Clock className="h-5 w-5 text-black" />
+                  <Clock className="h-5 w-5 text-[#F05215]" />
                   <h3 className="font-semibold text-gray-800">تحديد وقت الطلب</h3>
                 </div>
                 <div className="text-sm text-gray-600 mb-3">وقت تنفيذ الطلب</div>
@@ -564,14 +564,14 @@ export default function Cart() {
                 <div className="flex gap-3">
                   <Button 
                     variant={orderForm.deliveryTime === 'now' ? "default" : "outline"}
-                    className={`flex-1 ${orderForm.deliveryTime === 'now' ? 'bg-black hover:bg-red-600 text-white' : 'border-gray-300'}`}
+                    className={`flex-1 ${orderForm.deliveryTime === 'now' ? 'bg-[#F05215] hover:bg-[#C03A0A] text-white' : 'border-gray-300'}`}
                     onClick={() => setOrderForm(prev => ({ ...prev, deliveryTime: 'now' }))}
                   >
                     ✓ الآن
                   </Button>
                   <Button 
                     variant={orderForm.deliveryTime === 'later' ? "default" : "outline"}
-                    className={`flex-1 ${orderForm.deliveryTime === 'later' ? 'bg-black hover:bg-red-600 text-white' : 'border-gray-300'}`}
+                    className={`flex-1 ${orderForm.deliveryTime === 'later' ? 'bg-[#F05215] hover:bg-[#C03A0A] text-white' : 'border-gray-300'}`}
                     onClick={() => setOrderForm(prev => ({ ...prev, deliveryTime: 'later' }))}
                   >
                     في وقت لاحق
@@ -618,7 +618,7 @@ export default function Cart() {
             <Card>
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-4">
-                  <DollarSign className="h-5 w-5 text-black" />
+                  <DollarSign className="h-5 w-5 text-[#F05215]" />
                   <h3 className="font-semibold text-gray-800">طريقة الدفع</h3>
                 </div>
 
@@ -675,7 +675,7 @@ export default function Cart() {
                   
                   <div className="flex justify-between items-center pt-2 border-t">
                     <span className="text-gray-800 font-semibold">الإجمالي</span>
-                    <span className="text-xl font-bold text-black" data-testid="text-total">
+                    <span className="text-xl font-bold text-foreground" data-testid="text-total">
                       {formatCurrency(subtotal + deliveryFee)}
                     </span>
                   </div>
@@ -717,7 +717,7 @@ export default function Cart() {
               <Card>
                 <CardContent className="p-4">
                   <Button 
-                    className={`w-full font-semibold py-3 text-lg ${canPlaceOrder ? 'bg-black hover:bg-red-600 text-white' : 'bg-gray-400 text-white cursor-not-allowed'}`}
+                    className={`w-full font-semibold py-3 text-lg ${canPlaceOrder ? 'bg-[#F05215] hover:bg-[#C03A0A] text-white' : 'bg-gray-400 text-white cursor-not-allowed'}`}
                     onClick={handlePlaceOrder}
                     disabled={placeOrderMutation.isPending || !orderForm.locationData || !canPlaceOrder}
                     data-testid="button-place-order"
@@ -743,7 +743,7 @@ export default function Cart() {
                     <h3 className="text-lg font-semibold mb-2">السلة فارغة</h3>
                     <p className="text-sm">أضف بعض العناصر لبدء الطلب</p>
                     <Button 
-                      className="mt-4 bg-black hover:bg-red-600 text-white"
+                      className="mt-4 bg-[#F05215] hover:bg-[#C03A0A] text-white"
                       onClick={() => setLocation('/')}
                       data-testid="button-continue-shopping"
                     >

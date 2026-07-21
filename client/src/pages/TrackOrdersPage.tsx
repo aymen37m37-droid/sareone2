@@ -45,7 +45,7 @@ export default function TrackOrdersPage() {
       ...o,
       orderNumber: o.requestNumber,
       restaurantName: 'طلب وصل لي',
-      isWaselLi: true
+      isSaree OneLi: true
     }))
   ].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
@@ -74,7 +74,7 @@ export default function TrackOrdersPage() {
             ...dataW,
             orderNumber: dataW.requestNumber,
             restaurantName: 'طلب وصل لي',
-            isWaselLi: true
+            isSaree OneLi: true
           });
         } else {
           setSearchedOrder(null);
