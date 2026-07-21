@@ -45,7 +45,7 @@ export default function TrackOrdersPage() {
       ...o,
       orderNumber: o.requestNumber,
       restaurantName: 'طلب وصل لي',
-      isSaree OneLi: true
+      isSareeOneLi: true // تم التصحيح: إزالة المسافة من اسم الخاصية
     }))
   ].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
@@ -74,7 +74,7 @@ export default function TrackOrdersPage() {
             ...dataW,
             orderNumber: dataW.requestNumber,
             restaurantName: 'طلب وصل لي',
-            isSaree OneLi: true
+            isSareeOneLi: true // تم التصحيح: إزالة المسافة من اسم الخاصية
           });
         } else {
           setSearchedOrder(null);
@@ -234,7 +234,7 @@ export default function TrackOrdersPage() {
                     </div>
                     <div className="flex items-center gap-1.5 text-primary">
                       <span className="text-[10px] font-black">تتبع</span>
-                      <ArrowLeft className="h-3 w-3" />
+                      <ArrowRight className="h-3 w-3" />
                     </div>
                   </div>
                 </div>
