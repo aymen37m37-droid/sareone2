@@ -1,122 +1,164 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'wouter';
-import { ArrowRight, Search, Package, MapPin, Clock, Phone, User, Loader2 } from 'lucide-react';
+import { useLocation, useParams } from 'wouter';
+import { ArrowRight, MapPin, Clock, Phone, User, Package, CheckCircle, Truck, Loader2, AlertCircle, Home, Building, Navigation } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '@/context/AuthContext';
+import { format } from 'date-fns';
+import { ar } from 'date-fns/locale';
 
-export default function TrackOrdersPage() {
+export default function OrderTrackingPage() {
   const [, setLocation] = useLocation();
+  const { id } = useParams();
   const { toast } = useToast();
   const { user } = useAuth();
-  const [searchOrderNumber, setSearchOrderNumber] = useState('');
-  const [searchedOrder, setSearchedOrder] = useState<any>(null);
-  const [isSearching, setIsSearching] = useState(false);
+  const [order, setOrder] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // جلب الطلبات النشطة للعميل
-  const { data: regularOrders = [], isLoading: loadingOrders } = useQuery<any[]>({
-    queryKey: ['/api/orders/customer', user?.phone],
-    enabled: !!user?.phone,
-    queryFn: async () => {
-      const res = await fetch(`/api/orders/customer/${user?.phone}`);
-      if (!res.ok) return [];
-      return res.json();
-    }
-  });
-
-  const { data: wasalniOrders = [], isLoading: loadingWasalni } = useQuery<any[]>({
-    queryKey: ['/api/wasalni', { phone: user?.phone }],
-    enabled: !!user?.phone,
-    queryFn: async () => {
-      const res = await fetch(`/api/wasalni?phone=${user?.phone}`);
-      if (!res.ok) return [];
-      return res.json();
-    }
-  });
-
-  const activeOrders = [
-    ...regularOrders.filter(o => !['delivered', 'cancelled'].includes(o.status)),
-    ...wasalniOrders.filter(o => !['delivered', 'cancelled'].includes(o.status)).map(o => ({
-      ...o,
-      orderNumber: o.requestNumber,
-      restaurantName: 'طلب وصل لي',
-      isSareeOneLi: true // تم التصحيح: إزالة المسافة من اسم الخاصية
-    }))
-  ].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-
-  const handleSearchOrder = async () => {
-    if (!searchOrderNumber.trim()) {
-      toast({
-        title: "أدخل رقم الطلب",
-        description: "يرجى إدخال رقم الطلب للبحث",
-        variant: "destructive",
-      });
+  useEffect(() => {
+    if (!id) {
+      setLocation('/track-orders');
       return;
     }
 
-    setIsSearching(true);
-    try {
-      // البحث أولاً في الطلبات العادية ثم في وصل لي
-      const res = await fetch(`/api/orders/number/${searchOrderNumber}`);
-      if (res.ok) {
-        const data = await res.json();
-        setSearchedOrder(data);
-      } else {
-        const resW = await fetch(`/api/wasalni/number/${searchOrderNumber}`);
-        if (resW.ok) {
-          const dataW = await resW.json();
-          setSearchedOrder({
-            ...dataW,
-            orderNumber: dataW.requestNumber,
-            restaurantName: 'طلب وصل لي',
-            isSareeOneLi: true // تم التصحيح: إزالة المسافة من اسم الخاصية
-          });
-        } else {
-          setSearchedOrder(null);
-          toast({
-            title: "طلب غير موجود",
-            description: "لم يتم العثور على طلب بهذا الرقم",
-            variant: "destructive",
-          });
+    const fetchOrder = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Try to fetch from regular orders first
+        let res = await fetch(`/api/orders/${id}`);
+        let data = await res.json();
+
+        // If not found, try wasalni orders
+        if (!res.ok) {
+          const wasalniRes = await fetch(`/api/wasalni/${id}`);
+          if (wasalniRes.ok) {
+            const wasalniData = await wasalniRes.json();
+            data = {
+              ...wasalniData,
+              orderNumber: wasalniData.requestNumber,
+              restaurantName: 'طلب وصل لي',
+              isSareeOneLi: true // تم التصحيح
+            };
+          } else {
+            setError('الطلب غير موجود');
+            toast({
+              title: "خطأ",
+              description: "لم يتم العثور على الطلب",
+              variant: "destructive",
+            });
+            return;
+          }
         }
+
+        setOrder(data);
+      } catch (err) {
+        console.error(err);
+        setError('حدث خطأ أثناء تحميل الطلب');
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsSearching(false);
-    }
-  };
+    };
+
+    fetchOrder();
+  }, [id, setLocation, toast]);
 
   const getStatusLabel = (status: string) => {
-    const statusMap = {
+    const statusMap: Record<string, string> = {
       pending: 'قيد المراجعة',
       confirmed: 'مؤكد',
       preparing: 'قيد التحضير',
       on_way: 'في الطريق',
-      delivered: 'تم التوصيل'
+      delivered: 'تم التوصيل',
+      cancelled: 'ملغي'
     };
-    return statusMap[status as keyof typeof statusMap] || status;
+    return statusMap[status] || status;
   };
 
   const getStatusColor = (status: string) => {
-    const colorMap = {
+    const colorMap: Record<string, string> = {
       pending: 'bg-yellow-500',
       confirmed: 'bg-blue-500',
       preparing: 'bg-orange-500',
       on_way: 'bg-purple-500',
-      delivered: 'bg-green-500'
+      delivered: 'bg-green-500',
+      cancelled: 'bg-red-500'
     };
-    return colorMap[status as keyof typeof colorMap] || 'bg-gray-500';
+    return colorMap[status] || 'bg-gray-500';
   };
 
-  const handleViewFullTracking = (orderId: string) => {
-    setLocation(`/orders/${orderId}`);
+  const getStatusIcon = (status: string) => {
+    const iconMap: Record<string, any> = {
+      pending: Clock,
+      confirmed: CheckCircle,
+      preparing: Package,
+      on_way: Truck,
+      delivered: CheckCircle,
+      cancelled: AlertCircle
+    };
+    return iconMap[status] || Clock;
   };
+
+  const getAddressTypeIcon = (type: string) => {
+    const iconMap: Record<string, any> = {
+      home: Home,
+      work: Building,
+      other: MapPin
+    };
+    return iconMap[type] || MapPin;
+  };
+
+  const getStatusSteps = (status: string) => {
+    const steps = [
+      { key: 'pending', label: 'قيد المراجعة', icon: Clock },
+      { key: 'confirmed', label: 'تم التأكيد', icon: CheckCircle },
+      { key: 'preparing', label: 'قيد التحضير', icon: Package },
+      { key: 'on_way', label: 'في الطريق', icon: Truck },
+      { key: 'delivered', label: 'تم التوصيل', icon: CheckCircle }
+    ];
+
+    const currentIndex = steps.findIndex(s => s.key === status);
+    return steps.map((step, index) => ({
+      ...step,
+      completed: index <= currentIndex,
+      active: index === currentIndex
+    }));
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center" dir="rtl">
+        <div className="text-center">
+          <Loader2 className="h-10 w-10 animate-spin text-primary mx-auto mb-4" />
+          <p className="text-sm font-bold text-gray-400">جاري تحميل الطلب...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !order) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center" dir="rtl">
+        <div className="text-center max-w-sm px-4">
+          <AlertCircle className="h-12 w-12 text-red-400 mx-auto mb-4" />
+          <h2 className="text-lg font-black text-gray-800 mb-2">الطلب غير موجود</h2>
+          <p className="text-sm text-gray-500 font-bold mb-6">{error || 'لم نتمكن من العثور على الطلب المطلوب'}</p>
+          <Button onClick={() => setLocation('/track-orders')} className="rounded-2xl font-black">
+            العودة لتتبع الطلبات
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  const statusSteps = getStatusSteps(order.status);
+  const StatusIcon = getStatusIcon(order.status);
 
   return (
     <div className="min-h-screen bg-gray-50" dir="rtl">
@@ -127,183 +169,187 @@ export default function TrackOrdersPage() {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setLocation('/')}
-              data-testid="button-back"
+              onClick={() => setLocation('/track-orders')}
               className="rounded-full"
             >
               <ArrowRight className="h-5 w-5" />
             </Button>
             <div>
-              <h1 className="text-xl font-black text-gray-900">تتبع الطلبات</h1>
-              <p className="text-xs text-gray-500 font-bold uppercase tracking-tight">تابع حالة طلباتك النشطة</p>
+              <h1 className="text-xl font-black text-gray-900">تتبع الطلب</h1>
+              <p className="text-xs text-gray-500 font-bold uppercase tracking-tight">
+                #{order.orderNumber || order.id}
+              </p>
             </div>
           </div>
         </div>
       </div>
 
       <div className="max-w-md mx-auto p-4 space-y-6">
-        {/* Search Section */}
+        {/* Order Status Card */}
         <Card className="rounded-[2rem] border-none shadow-sm overflow-hidden">
-          <CardHeader className="pb-2">
-            <CardTitle className="flex items-center gap-2 text-sm font-black text-gray-400">
-              <Search className="h-4 w-4" />
-              البحث عن طلب محدد
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex gap-2">
-              <Input
-                placeholder="أدخل رقم الطلب..."
-                value={searchOrderNumber}
-                onChange={(e) => setSearchOrderNumber(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSearchOrder()}
-                className="rounded-2xl h-12 bg-gray-50 border-gray-100"
-                data-testid="input-search-order"
-              />
-              <Button 
-                onClick={handleSearchOrder}
-                disabled={isSearching}
-                className="rounded-2xl h-12 px-6 bg-primary font-black"
-                data-testid="button-search-order"
-              >
-                {isSearching ? <Loader2 className="h-4 w-4 animate-spin" /> : 'بحث'}
-              </Button>
-            </div>
-            
-            {searchedOrder && (
-              <div className="animate-in fade-in slide-in-from-top-2 p-4 bg-orange-50/50 rounded-[1.5rem] border border-orange-100">
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="font-black text-primary text-sm">طلب #{searchedOrder.orderNumber}</span>
-                    <Badge className={`${getStatusColor(searchedOrder.status)} text-white border-none rounded-full text-[10px] font-black`}>
-                      {getStatusLabel(searchedOrder.status)}
-                    </Badge>
-                  </div>
-                  <p className="text-xs font-bold text-gray-700">{searchedOrder.restaurantName || 'طلب متجر'}</p>
-                  <Button
-                    size="sm"
-                    className="w-full mt-2 rounded-xl bg-white text-primary border border-orange-200 hover:bg-orange-100 transition-all font-black h-10 shadow-sm"
-                    onClick={() => handleViewFullTracking(searchedOrder.id)}
-                    data-testid="button-view-searched-order"
-                  >
-                    عرض صفحة التتبع المباشر
-                  </Button>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <div className={`w-12 h-12 rounded-2xl ${getStatusColor(order.status)}/10 flex items-center justify-center`}>
+                  <StatusIcon className={`h-6 w-6 text-${getStatusColor(order.status).replace('bg-', '')}`} />
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-gray-400">حالة الطلب</p>
+                  <p className="text-sm font-black text-gray-900">{getStatusLabel(order.status)}</p>
                 </div>
               </div>
-            )}
+              <Badge className={`${getStatusColor(order.status)} text-white border-none rounded-full text-[10px] font-black px-4 py-1`}>
+                {getStatusLabel(order.status)}
+              </Badge>
+            </div>
+
+            {/* Status Timeline */}
+            <div className="relative mt-6">
+              <div className="absolute right-4 top-0 bottom-0 w-0.5 bg-gray-100" />
+              <div className="space-y-6">
+                {statusSteps.map((step, index) => {
+                  const StepIcon = step.icon;
+                  return (
+                    <div key={step.key} className="flex items-start gap-4 relative">
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center z-10 shrink-0 ${
+                        step.completed ? 'bg-primary text-white' : 'bg-gray-100 text-gray-300'
+                      }`}>
+                        <StepIcon className="h-4 w-4" />
+                      </div>
+                      <div className="flex-1 pt-1">
+                        <p className={`text-xs font-black ${
+                          step.active ? 'text-primary' : step.completed ? 'text-gray-700' : 'text-gray-300'
+                        }`}>
+                          {step.label}
+                        </p>
+                        {step.active && order.updatedAt && (
+                          <p className="text-[10px] text-gray-400 font-bold mt-0.5">
+                            {format(new Date(order.updatedAt), 'hh:mm a', { locale: ar })}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </CardContent>
         </Card>
 
-        {/* Active Orders */}
-        <div className="space-y-4">
-          <h3 className="flex items-center gap-2 text-sm font-black text-gray-400 px-2">
-            <Clock className="h-4 w-4" />
-            طلباتك الحالية
-          </h3>
-
-          {(loadingOrders || loadingWasalni) ? (
-            <div className="flex flex-col items-center py-10 text-gray-300">
-              <Loader2 className="h-8 w-8 animate-spin mb-2" />
-              <p className="text-xs font-bold">جاري تحديث الطلبات...</p>
-            </div>
-          ) : activeOrders.length > 0 ? (
+        {/* Order Details */}
+        <Card className="rounded-[2rem] border-none shadow-sm">
+          <CardContent className="p-6 space-y-4">
+            <h3 className="text-sm font-black text-gray-400">تفاصيل الطلب</h3>
+            
             <div className="space-y-3">
-              {activeOrders.map((order) => (
-                <div 
-                  key={order.id}
-                  className="p-5 bg-white rounded-[2rem] shadow-sm hover:shadow-md transition-all cursor-pointer border-none group"
-                  onClick={() => handleViewFullTracking(order.id)}
-                  data-testid={`order-card-${order.id}`}
-                >
-                  <div className="flex justify-between items-start mb-3">
-                    <div className="min-w-0">
-                      <h3 className="font-black text-gray-900 group-hover:text-primary transition-colors truncate">{order.restaurantName}</h3>
-                      <p className="text-[10px] font-black text-gray-400 mt-0.5">رقم الطلب: {order.orderNumber}</p>
-                    </div>
-                    <Badge className={`${getStatusColor(order.status)} text-white border-none rounded-full text-[10px] font-black shrink-0`}>
-                      {getStatusLabel(order.status)}
-                    </Badge>
+              <div className="flex justify-between items-center">
+                <span className="text-xs font-bold text-gray-500">رقم الطلب</span>
+                <span className="text-xs font-black text-gray-900">#{order.orderNumber || order.id}</span>
+              </div>
+              
+              <Separator className="bg-gray-50" />
+              
+              <div className="flex justify-between items-center">
+                <span className="text-xs font-bold text-gray-500">المطعم</span>
+                <span className="text-xs font-black text-gray-900">{order.restaurantName || 'طلب متجر'}</span>
+              </div>
+
+              {order.isSareeOneLi && ( // تم التصحيح هنا
+                <>
+                  <Separator className="bg-gray-50" />
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs font-bold text-gray-500">نوع الطلب</span>
+                    <span className="text-xs font-black text-primary">طلب وصل لي</span>
                   </div>
-                  
-                  <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-50">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-xl bg-gray-50 flex items-center justify-center">
-                        <Package className="h-4 w-4 text-gray-400" />
-                      </div>
-                      <span className="text-[10px] font-black text-gray-500 uppercase tracking-tighter">الحالة: {getStatusLabel(order.status)}</span>
+                </>
+              )}
+
+              {order.items && order.items.length > 0 && (
+                <>
+                  <Separator className="bg-gray-50" />
+                  <div>
+                    <p className="text-xs font-bold text-gray-500 mb-2">المنتجات</p>
+                    <div className="space-y-1">
+                      {order.items.map((item: any, index: number) => (
+                        <div key={index} className="flex justify-between text-xs">
+                          <span className="text-gray-700">{item.name || item.productName}</span>
+                          <span className="font-black text-gray-900">{item.quantity} × {item.price} ريال</span>
+                        </div>
+                      ))}
                     </div>
-                    <div className="flex items-center gap-1.5 text-primary">
-                      <span className="text-[10px] font-black">تتبع</span>
-                      <ArrowRight className="h-3 w-3" />
-                    </div>
+                  </div>
+                </>
+              )}
+
+              <Separator className="bg-gray-50" />
+              
+              <div className="flex justify-between items-center">
+                <span className="text-xs font-bold text-gray-500">المجموع</span>
+                <span className="text-sm font-black text-primary">{order.total} ريال</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Address Section */}
+        {order.address && (
+          <Card className="rounded-[2rem] border-none shadow-sm">
+            <CardContent className="p-6 space-y-4">
+              <h3 className="text-sm font-black text-gray-400">عنوان التوصيل</h3>
+              
+              <div className="space-y-3">
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-orange-50 flex items-center justify-center shrink-0">
+                    <MapPin className="h-4 w-4 text-primary" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-black text-gray-900">{order.address.address || order.address.location}</p>
+                    <p className="text-[10px] font-bold text-gray-400 mt-0.5">
+                      {order.address.type === 'home' ? 'المنزل' : 
+                       order.address.type === 'work' ? 'مكان العمل' : 'عنوان آخر'}
+                    </p>
                   </div>
                 </div>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-20 bg-white rounded-[2.5rem] border border-dashed border-gray-200">
-              <Package className="h-10 w-10 text-gray-200 mx-auto mb-3" />
-              <p className="text-xs font-bold text-gray-400">لا توجد طلبات نشطة حالياً</p>
-              <Button 
-                variant="link" 
-                className="mt-2 text-primary font-black text-xs"
-                onClick={() => setLocation('/')}
-              >
-                اطلب الآن
-              </Button>
-            </div>
-          )}
-        </div>
 
-        {/* Quick Actions */}
-        <div className="grid grid-cols-2 gap-3 pt-2">
+                {order.address.notes && (
+                  <div className="bg-gray-50 rounded-2xl p-3">
+                    <p className="text-[10px] font-bold text-gray-500">ملاحظات: {order.address.notes}</p>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Contact Actions */}
+        <div className="grid grid-cols-2 gap-3">
           <Button
             variant="outline"
-            className="h-24 flex flex-col gap-2 rounded-[2rem] border-none shadow-sm bg-white hover:bg-orange-50 transition-all group"
-            onClick={() => setLocation('/orders')}
+            className="h-14 rounded-2xl border-none shadow-sm bg-white hover:bg-orange-50 transition-all group"
+            onClick={() => window.open('tel:+967771234567')}
           >
-            <div className="w-10 h-10 rounded-2xl bg-orange-100 flex items-center justify-center text-orange-600 group-hover:bg-orange-600 group-hover:text-white transition-all">
-              <Package className="h-5 w-5" />
-            </div>
-            <span className="text-xs font-black text-gray-700">تاريخ الطلبات</span>
+            <Phone className="h-4 w-4 text-primary ml-2" />
+            <span className="text-xs font-black text-gray-700">اتصال</span>
           </Button>
           
           <Button
             variant="outline"
-            className="h-24 flex flex-col gap-2 rounded-[2rem] border-none shadow-sm bg-white hover:bg-blue-50 transition-all group"
-            onClick={() => setLocation('/addresses')}
+            className="h-14 rounded-2xl border-none shadow-sm bg-white hover:bg-green-50 transition-all group"
+            onClick={() => window.open('https://wa.me/967771234567')}
           >
-            <div className="w-10 h-10 rounded-2xl bg-blue-100 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all">
-              <MapPin className="h-5 w-5" />
-            </div>
-            <span className="text-xs font-black text-gray-700">عناويني</span>
+            <User className="h-4 w-4 text-[#25D366] ml-2" />
+            <span className="text-xs font-black text-gray-700">واتساب</span>
           </Button>
         </div>
 
-        {/* Contact Support */}
-        <div className="bg-gray-900 rounded-[2.5rem] p-6 text-white shadow-xl overflow-hidden relative">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16" />
-          <h3 className="font-black text-lg mb-2 relative z-10">هل تواجه مشكلة؟</h3>
-          <p className="text-xs text-gray-400 font-bold mb-5 relative z-10 leading-relaxed">
-            فريق الدعم الفني متواجد لمساعدتك في تتبع طلبك أو حل أي مشكلة قد تواجهك.
-          </p>
-          <div className="flex gap-3 relative z-10">
-            <Button
-              className="flex-1 rounded-2xl bg-white text-gray-900 font-black hover:bg-gray-100 h-11 text-xs gap-2"
-              onClick={() => window.open('tel:+967771234567')}
-            >
-              <Phone className="h-3.5 w-3.5" />
-              اتصال سريع
-            </Button>
-            <Button
-              className="flex-1 rounded-2xl bg-[#25D366] text-white font-black hover:opacity-90 h-11 text-xs gap-2"
-              onClick={() => window.open('https://wa.me/967771234567')}
-            >
-              <User className="h-3.5 w-3.5" />
-              واتساب
-            </Button>
-          </div>
-        </div>
+        {/* Back Button */}
+        <Button
+          variant="ghost"
+          className="w-full rounded-2xl text-gray-400 font-black text-xs hover:bg-gray-50"
+          onClick={() => setLocation('/track-orders')}
+        >
+          العودة لتتبع الطلبات
+        </Button>
       </div>
     </div>
   );
