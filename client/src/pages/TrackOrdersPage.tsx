@@ -254,7 +254,7 @@ export default function OrderTrackingPage() {
                 <span className="text-xs font-black text-gray-900">{order.restaurantName || 'طلب متجر'}</span>
               </div>
 
-              {order.isSareeOneLi && ( // تم التصحيح هنا
+              {order.isSareeOneLi && (
                 <>
                   <Separator className="bg-gray-50" />
                   <div className="flex justify-between items-center">
@@ -316,6 +316,25 @@ export default function OrderTrackingPage() {
                     <p className="text-[10px] font-bold text-gray-500">ملاحظات: {order.address.notes}</p>
                   </div>
                 )}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Wasalni Pickup Info */}
+        {order.isSareeOneLi && (
+          <Card className="border-primary/20 bg-primary/5">
+            <CardContent className="p-4">
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
+                  <Navigation className="h-4 w-4 text-primary" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-xs font-black text-gray-700">طلب وصل لي</p>
+                  <p className="text-[10px] text-gray-500 mt-0.5">
+                    هذا الطلب من خدمة وصل لي - سيتم إحضاره من المتجر
+                  </p>
+                </div>
               </div>
             </CardContent>
           </Card>
